@@ -10,7 +10,10 @@ int main()
   MangalibSession session;// Создаем сессию
 
   // Заходим в аккаунт
-  session.Login("login", "password");
+  if(!session.Login("login", "password")) {
+    std::cerr << "Неправильный логин или пароль" << std::endl;
+    return 0;
+  }
 
   //Получаем и выводим список манги по поисковому запросу
   auto collection = session.Search("То, что я не знаю о тебе");
