@@ -4,12 +4,13 @@ project(MangalibDownloaderUtility VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_custom_target(
-    copy-compile-commands ALL
-    ${CMAKE_COMMAND} -E copy_if_different
-    ${PROJECT_BINARY_DIR}/compile_commands.json
-        ${PROJECT_SOURCE_DIR}
-    )
+# Для генераторов, которые используют compile_commands
+# add_custom_target(
+    # copy-compile-commands ALL
+    # ${CMAKE_COMMAND} -E copy_if_different
+    # ${PROJECT_BINARY_DIR}/compile_commands.json
+        # ${PROJECT_SOURCE_DIR}
+    # )
 
 if(${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "AMD64")
 set(OPENSSL_PATH "${CMAKE_SOURCE_DIR}/openssl-3/x64")
