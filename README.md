@@ -10,7 +10,18 @@
 git clone --recurse-submodules
 ```
 
-2) Взять сбилженые бинари для openssl и закинуть в папку билда Debug или Release
+2) Билдим при помощи cmake
+```
+cmake -DCMAKE_BUILD_TYPE=Release -S . -B Release
+или
+cmake -DCMAKE_BUILD_TYPE=Debug -S . -B Debug
 
-3) Сбилдить
+потом 
+cmake --build Debug
+или
+cmake --build Release
+```
+
+3) Взять сбилженые бинари для openssl и закинуть в папку билда Debug или Release к экзешнику
+
 
