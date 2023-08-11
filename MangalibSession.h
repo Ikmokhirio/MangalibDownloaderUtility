@@ -13,8 +13,7 @@
 
 #include "Error.h"
 
-class MangalibSession
-{
+class MangalibSession {
 private:
   const std::string LIBSOCIAL = "https://lib.social";
   const std::string MANGALIB = "https://mangalib.me";
@@ -53,9 +52,14 @@ public:
   void GetTranslationList(Manga& manga);
 
   /*
+  * Получает превью манги в виде последовательности байт
+  */
+  void GetThumbnail(Manga& manga);
+
+  /*
   * Возвращает объекта класса Downloader с установленной сессией
   */
-  Downloader StartDownloadSession(Manga& manga);
+  Downloader* StartDownloadSession(Manga& manga);
 };
 
 #endif// MANGALIBUTILITY_SESSION_H

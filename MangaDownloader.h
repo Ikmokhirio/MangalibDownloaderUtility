@@ -16,8 +16,7 @@
 #include "Combiners/CombinerBase.h"
 #include "MangaCollection.h"
 
-class Downloader
-{
+class Downloader {
 public:
   inline Downloader(httplib::Client& cli, Manga& manga, std::string c)
       : cookie(c)
@@ -76,7 +75,7 @@ public:
     return *this;
   }
 
-  inline Downloader& DownloadFolder(const std::string &s)
+  inline Downloader& DownloadFolder(const std::string& s)
   {
     downloadFolder = Converter::ToWString(s);
     return *this;
@@ -86,6 +85,9 @@ public:
 
   // Скачивает главу, используя установленные параметры
   void DownloadChapter(int chapterId);
+
+  // Скачивает выбранные главы
+  void DownloaderChapters(std::vector<Chapter>& chapter);
 
 private:
   const std::string ENG_NAME = "engName";

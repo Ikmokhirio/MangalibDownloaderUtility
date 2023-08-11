@@ -1,6 +1,7 @@
 #ifndef MANGALIB_DOWNLOADER_HTMLCOMBINER_H
 #define MANGALIB_DOWNLOADER_HTMLCOMBINER_H
 
+#include "Utils.h"
 #include "CombinerBase.h"
 #include <Base64.hpp>
 #include <format>

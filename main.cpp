@@ -16,13 +16,13 @@ int main()
   }
 
   //Получаем и выводим список манги по поисковому запросу
-  auto collection = session.Search("То, что я не знаю о тебе");
+  auto collection = session.Search("12");
   for(auto& manga: (std::vector<Manga>) collection) {
     std::cout << manga << std::endl;
   }
 
   // Допустим пользователь выбрал мангу
-  auto selectedManga = collection.GetMangaById(78314);
+  auto selectedManga = collection.GetMangaById(24249);
 
   //Получаем и выводим список переводов
   session.GetTranslationList(selectedManga);
@@ -31,11 +31,11 @@ int main()
   }
 
   // Допустим человек выбирает конкретный перевод
-  auto selectedBranch = selectedManga.branches[1].branch;
+  int selectedBranch = selectedManga.branches.size() > 0 ? selectedManga.branches[0].branch : 0;
 
   // Создаем сессию для загрузки и настраиваем как нам надо
   auto downloaderSession = session.StartDownloadSession(selectedManga);
-  auto chapters = downloaderSession.Branch(selectedBranch)
+  auto chapters = downloaderSession->Branch(selectedBranch)
                       .SkipPagesEnd(0)
                       .SkipPagesStart(0)
                       .ErrorSleep(1)
@@ -46,9 +46,12 @@ int main()
                       .DownloadFolder("тестовая прогонка")
                       .ExtractChapters();// ExtractChapters должен быть последним в списке. У остальных порядок не важен
 
-  downloaderSession.DownloadChapter(0);// Первая глава в списке
-  downloaderSession.DownloadChapter(1);// Вторая глава в списке
-  downloaderSession.DownloadChapter(2);// ...
+  for(int i = 0; i < 3; i++) {
+    chapters[i].selected = true;
+  }
+  downloaderSession->DownloaderChapters(chapters);
+
+  downloaderSession->DownloadChapter(4);// Пятая глава в списке
 
   return 0;
 }

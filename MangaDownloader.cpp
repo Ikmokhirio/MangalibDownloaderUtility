@@ -68,7 +68,6 @@ std::vector<Chapter>& Downloader::ExtractChapters()
     ProcessCurrentChapter();
   }
 
-
   return chapters;
 }
 
@@ -211,6 +210,7 @@ void Downloader::DownloadChapter(int chapterNumber)
       break;
     }
     if(attemptCount >= maxAttempt) {
+      chapters[chapterNumber].errorOnLastOperation = true;
       throw MangalibError(std::format("Не получилось загрузить после {0} попыток", maxAttempt));
     }
     listNumber++;
@@ -234,6 +234,15 @@ void Downloader::DownloadChapter(int chapterNumber)
     combiner->SaveTo(ss.str(), previousChapter, nextChapter);
     combiner->End();
   }
+  chapters[chapterNumber].finished = true;
   ML_INFO("Успешно том {0} глава {1}", chapters[chapterNumber].volumeNumber, chapters[chapterNumber].chapterNumber);
 }
 
+void Downloader::DownloaderChapters(std::vector<Chapter>& chapters)
+{
+  for(int i = 0; i < chapters.size(); i++) {
+    if(chapters[i].selected) {
+      DownloadChapter(i);
+    }
+  }
+}

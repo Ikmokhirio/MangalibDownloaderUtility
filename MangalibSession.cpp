@@ -1,4 +1,5 @@
 #include "MangalibSession.h"
+#include "UriParser.h"
 
 std::string GetCookie(std::string header, std::string name)
 {
@@ -154,7 +155,26 @@ void MangalibSession::GetTranslationList(Manga& manga)
   }
 }
 
-Downloader MangalibSession::StartDownloadSession(Manga& manga)
+void MangalibSession::GetThumbnail(Manga& manga)
 {
-  return Downloader(mangalibCli, manga, authCookie);
+  auto res = mangalibCli.Get(Uri::Parse(manga.thumbnail).Path);
+
+  if(res.error() != httplib::Error::Success) {
+    throw MangalibError(std::format("Ошибка при запросе : {0}", httplib::to_string(res.error())));
+  }
+
+  if(manga.thumbnail.empty()) {
+    manga.thumbnailBinary = "";
+    return;
+  }
+  if(res->body.find("DOCTYPE") != std::string::npos) {
+    manga.thumbnailBinary = "";
+    return;
+  }
+  manga.thumbnailBinary = res->body;
+}
+
+Downloader* MangalibSession::StartDownloadSession(Manga& manga)
+{
+  return new Downloader(mangalibCli, manga, authCookie);
 }

@@ -59,25 +59,29 @@ struct Manga {
   std::string englishName;
   std::string summary;
   std::string cover;
+  std::string thumbnailBinary;
   std::string thumbnail;
   std::string link;
   std::string thumbnailPath;
   std::vector<Team> branches;
 
   bool empty;
+  bool selected;
 
   friend std::ostream& operator<<(std::ostream& os, const Manga& m);
 
   Manga()
   {
     empty = true;
+    selected = false;
   }
 };
 
-class MangaCollection
-{
+class MangaCollection {
 public:
   MangaCollection(std::string body);
+
+  inline MangaCollection() = default;
 
   inline operator std::vector<Manga>&()
   {
@@ -92,6 +96,32 @@ public:
       }
     }
     return emptyManga;// Empty Manga instance
+  }
+
+  inline bool isEmpty() { return manga.empty(); }
+
+  inline void AddManga(Manga m)
+  {
+    manga.push_back(m);
+  }
+
+  inline void RemoveManga(Manga m)
+  {
+    auto res = find_if(manga.begin(), manga.end(), [&m](const Manga& el) {
+      return m.id == el.id;
+    });
+    if(res == manga.end()) {
+      return;
+    }
+    manga.erase(res);
+  }
+
+  inline bool Contains(Manga m)
+  {
+    auto res = find_if(manga.begin(), manga.end(), [&m](const Manga& el) {
+      return m.id == el.id;
+    });
+    return res != manga.end();
   }
 
 private:

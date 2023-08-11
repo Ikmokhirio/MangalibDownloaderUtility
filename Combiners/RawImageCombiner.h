@@ -1,6 +1,7 @@
 #ifndef MANGALIB_DOWNLOADER_RAWCOMBINER_H
 #define MANGALIB_DOWNLOADER_RAWCOMBINER_H
 
+#include "Utils.h"
 #include "CombinerBase.h"
 
 class RawCombiner : public Combiner
